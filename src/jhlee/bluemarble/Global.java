@@ -1,7 +1,7 @@
 package jhlee.bluemarble;
 
 public class Global {
-	static final String mHost = "boom1492.iptime.org";
+	static final String mHost = "mobilesw.yonsei.ac.kr";
 	static final String[] mFields = {"출발", "중국 타이페이", "황금열쇠", "홍콩", "필리핀 마닐라", "대한민국 제주도", "싱가포르",
 		"황금열쇠", "이집트 카이로", "터키 이스탄불" , "무인도", "그리스 아테네", "황금열쇠", "덴마크 코펜하겐",
 		"스웨덴 스톡홀름", "콩코드 여객기", "스위스 취리히", "황금열쇠", "독일 베를린", "캐나다 몬트리올", "사회복지기금 접수처",
