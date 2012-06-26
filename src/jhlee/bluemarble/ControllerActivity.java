@@ -2,24 +2,35 @@ package jhlee.bluemarble;
 
 import java.net.URI;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.zip.Inflater;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.layout;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import edu.stanford.junction.Junction;
 import edu.stanford.junction.JunctionException;
 import edu.stanford.junction.JunctionMaker;
@@ -57,6 +68,7 @@ public class ControllerActivity extends Activity{
 		actor.sendMessageToSession(message);
 		actor.leave();
 		jx.disconnect();
+		nm.cancel(0);
 		super.onDestroy();
 	}
 
@@ -67,7 +79,8 @@ public class ControllerActivity extends Activity{
 	private int mNumber = -1;
 	private String[] mNames = new String[4];
 	
-	
+	private NotificationManager nm;
+	private Notification notification;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -96,8 +109,37 @@ public class ControllerActivity extends Activity{
 				actor.sendMessageToSession(message);
 			}
 		});
+		
+		nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		notification = new Notification(R.drawable.icon, "부루마블", System.currentTimeMillis());
+		Intent intent = new Intent(this, ControllerActivity.class);
+		PendingIntent activity = PendingIntent.getActivity(this, 0, intent, 0);
+		notification.setLatestEventInfo(this, "부루마블", "클릭하여 게임을 계속 진행합니다.", activity);
+		nm.notify(0, notification);
+
 	}
 	
+	private boolean finishFlag = false;
+	private Timer timer = new Timer();
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if(finishFlag){
+			finish();
+		}else{
+			Toast.makeText(getBaseContext(), "뒤로 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+			timer.schedule(new TimerTask() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					finishFlag = false;
+				}
+			}, 2000);
+			finishFlag = true;
+		}
+	}
+
 
 	class ControllerActor extends JunctionActor{
 
@@ -148,6 +190,8 @@ public class ControllerActivity extends Activity{
 						int state = message.getInt("state");
 						switch(state){
 						case STATE_DICE:
+							Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+							v.vibrate(500);
 							runOnUiThread(new Runnable() {
 								
 								public void run() {
@@ -393,6 +437,10 @@ public class ControllerActivity extends Activity{
 						default:
 							break;
 						}
+					}
+					else if(service.equals("gameover")){
+						Toast.makeText(ControllerActivity.this, "패배하셨습니다.", Toast.LENGTH_LONG).show();
+						finish();
 					}
 				}
 				else{

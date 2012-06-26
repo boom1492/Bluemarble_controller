@@ -9,10 +9,12 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar"
         >
         <activity
             android:label="@string/app_name"
@@ -23,10 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dylanmtaylor.simpledice.RollDice"></activity>
-        <activity android:name="jhlee.bluemarble.JoinActivity"></activity>
+        <activity android:name="jhlee.bluemarble.JoinActivity" android:finishOnTaskLaunch="true"></activity>
         <activity android:name="jhlee.bluemarble.ControllerActivity"
-            android:screenOrientation="portrait" android:launchMode="singleInstance"></activity>
+            android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity
   			android:name="com.google.zxing.client.android.CaptureActivity"
   			android:screenOrientation="landscape"

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, Bluemarble_androidActivity!</string>
-    <string name="app_name">Bluemarble_android</string>
+    <string name="app_name">부루마블</string>
+    <string name="host">mobilesw.yonsei.ac.kr/bm</string>
 
 </resources>

@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="boom1492.iptime.org"
+        android:text="@string/host"
         android:textSize="24dp"
         android:layout_weight="5" />
 

@@ -28,6 +28,7 @@ public class JoinActivity extends Activity{
 				bundle.putString("nickname", nickname);
 				intent.putExtras(bundle);
 				startActivity(intent);
+				finish();
 			}
 		});
         
